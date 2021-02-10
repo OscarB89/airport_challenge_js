@@ -19,4 +19,13 @@ describe("Plane", function () {
     plane.takeoff();
     expect(airport.planes()).not.toContain(plane);
   });
+
+  it("blocks takeoff when weather is stromy", function () {
+    plane.land(airport);
+    spyOn(airport, "isStormy").and.returnValue(true);
+    expect(function () {
+      plane.takeoff();
+    }).toThrowError("cannot takeoff during storm");
+    expect(airport.planes()).toContain(plane);
+  });
 });
